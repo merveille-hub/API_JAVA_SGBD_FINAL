@@ -31,8 +31,7 @@ public class MYSQL implements RequetesSGBD {
 
     public boolean insert(String nomTable) throws SQLException, IOException {
         List<String> columnNames = getColumnNames(this.getConnection(), nomTable);
-        System.out.println("nombre attributs colunmname" + columnNames.size());
-        System.out.println("Afficher les noms des colonnes : ");
+
         for (String columnName : columnNames) {
             System.out.print(columnName + " ");
         }
@@ -52,9 +51,9 @@ public class MYSQL implements RequetesSGBD {
         String line = scanner.nextLine();
         paramsList = Arrays.asList(line.split(" "));
         String sql = "INSERT INTO " + nomTable + " " + columns + " VALUES " + "(?, ?, ?);";
-        System.out.println("column" + columns);
+        /*System.out.println("column" + columns);
         System.out.println("param list: " + paramsList);
-        System.out.println("sql: " + sql);
+        System.out.println("sql: " + sql);*/
         insertionSQL(getConnection(), sql, paramsList);
         return true;
     }

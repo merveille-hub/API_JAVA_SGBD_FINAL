@@ -98,7 +98,6 @@ public class RequeteManager {
 
         return results;
     }
-
     public List<Map<String, Object>> executeQuery(Connection conn, String sql, List<Object> params) throws Exception {
         if (conn == null) throw new IllegalStateException("La connexion est nulle !");
 
@@ -125,7 +124,6 @@ public class RequeteManager {
         }
         return results;
     }
-
     /**
      * Exécute une requête INSERT, UPDATE ou DELETE. Retourne le nombre de lignes affectées.
      */

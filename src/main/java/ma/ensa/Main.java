@@ -4,10 +4,16 @@ package ma.ensa;
 import ma.ensa.SGBD.MYSQL;
 import ma.ensa.SGBD.POSTGRESQL;
 import ma.ensa.SGBD.SQL_SERVER;
+import ma.ensa.db.RequeteManager;
+import ma.ensa.util.CSVReader;
+import ma.ensa.util.CSVUserImporter;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
+
+import static ma.ensa.db.RequeteManager.executeUpdate;
 
 public class Main {
 
@@ -15,23 +21,23 @@ public class Main {
         /************************SE CONNECTER SGBDs************************************/
         System.out.println("Connecting to database MySQL.");
         MYSQL mysql = new MYSQL();
-        System.out.println("Connecting to database POSTGRESQL.");
+        /*System.out.println("Connecting to database POSTGRESQL.");
         POSTGRESQL postgresql = new POSTGRESQL();
         System.out.println("Connecting to database SQLSERVER.");
-        SQL_SERVER sqlserver = new SQL_SERVER();
+        //SQL_SERVER sqlserver = new SQL_SERVER();
         System.out.println("Connecting to databases successfully.");
-
+*/
 
         /***************************CREATE DATABASE***************************************/
         //mysql
-        /*String sqlMYSQL = "CREATE TABLE users (\n" +
+        String sqlMYSQL = "CREATE TABLE users (\n" +
                 "                             id INT PRIMARY KEY AUTO_INCREMENT, \n" +
                 "                             nom VARCHAR(100) NOT NULL,\n" +
                 "                             email VARCHAR(150) NOT NULL UNIQUE,\n" +
                 "                             age INT NOT NULL\n" +
                 ");";
 
-        System.out.println(mysql.createTable(mysql.getConnection(), sqlMYSQL));*/
+        System.out.println(mysql.createTable(mysql.getConnection(), sqlMYSQL));
 
         //Postgresql
         /*String sqlPostgreSQL = "CREATE TABLE users (\n" +
@@ -41,12 +47,34 @@ public class Main {
                 "                             age INT NOT NULL\n" +
                 ");";
         System.out.println(postgresql.createTable(postgresql.getConnection(), sqlPostgreSQL));*/
+/*
+        *//*****************************MYSQL*************************************/
+        String sql = "select * from users";
+        CSVUserImporter.insertUsersFromCsv(mysql.getConnection(), "utlisateurs.csv", "users");
+       // RequeteManager.executeSelect(mysql.getConnection(), sql, );
+        List<Utilisateurs> utilisateursList = CSVReader.readUsersFromCSV("utilisateurs.csv");
 
-        /*****************************INSERT INTO*************************************/
-        //mysql.insert("users");
-        //mysql.update("users");
+        /*RequeteManager.insert
+                executeUpdate(mysql.getConnection(), sql, utilisateursList);
+        *//*mysql.insert("users");
+
+        mysql.update("users");
         mysql.select("users");
         mysql.delete("users");
+
+        *//*****************************POSTGRESQL*************************************//*
+        postgresql.insert("users");
+        postgresql.update("users");
+        postgresql.select("users");
+        postgresql.delete("users");
+
+        *//*****************************SQLSERVER*************************************/
+        //mysql.insert("users");
+        //mysql.update("users");
+        //mysql.select("users");
+        //mysql.delete("users");
+
+
 
         /*Utilisateurs users1 = new Utilisateurs("Joe", 20, "joe@gmail.com");
 

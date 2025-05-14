@@ -1,3 +1,6 @@
+import ma.ensa.SGBD.MYSQL;
+import ma.ensa.db.RequeteManager;
+import ma.ensa.util.PropertiesReader;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -60,6 +63,21 @@ class Test {
             throw new RuntimeException("Erreur de chargement de configuration", e);
         }
     }
+
+    @org.junit.jupiter.api.Test
+    void exemple() throws SQLException, IOException {
+
+        //se connecter a la bd qui se trouve dans ressource
+        Connection connection = PropertiesReader.connectFromProperties("dbMySql.properties");
+        MYSQL mysql = new MYSQL(connection);
+        List<Map<String, Object>> results = mysql.select("users");
+
+        results.forEach(System.out::println);
+
+    }
+
+
+
 
 
 
@@ -137,7 +155,7 @@ class Test {
         // Exécution d’un SELECT
         String selectQuery = "SELECT * FROM utilisateur WHERE age > ?";
         List<Object> selectParams = List.of(20);
-        List<Map<String, Object>> result = DatabaseManager.executeSelect(connection, selectQuery, selectParams);
+        List<Map<String, Object>> result = RequeteManager.executeSelect(connection, selectQuery, selectParams);
         for (Map<String, Object> user : result) {
             System.out.println(user);
             assertNotEquals(user, null);
@@ -150,7 +168,7 @@ class Test {
         // Exécution d’un INSERT
         String insertQuery = "INSERT INTO utilisateur (id, nom, email, age) VALUES (?, ?, ?, ?)";
         List<Object>insertParams = Arrays.asList(3, "jeir", "diro@mail.com", 30);
-        int insertRows = DatabaseManager.executeUpdate(connection, insertQuery, insertParams);
+        int insertRows = RequeteManager.executeUpdate(connection, insertQuery, insertParams);
         System.out.println("Lignes insérées : " + insertRows);
     }
 
@@ -167,7 +185,7 @@ class Test {
         //Exécution d'un UPDATE
         String updateQuery = "UPDATE utilisateur SET age = ? WHERE nom = ?";
         List<Object> updateParams = Arrays.asList(30, "testuser");
-        int updateCount = DatabaseManager.executeUpdate(connection, updateQuery, updateParams);
+        int updateCount = RequeteManager.executeUpdate(connection, updateQuery, updateParams);
         System.out.println("Lignes mises à jour : " + updateCount);
         assertNotEquals(0, updateCount);
     }
@@ -178,7 +196,7 @@ class Test {
         //Exécution de DELETE
         String deleteQuery = "DELETE FROM utilisateur WHERE nom = ?";
         List<Object>deleteParams = Arrays.asList("newuser");
-        int deleteRows = DatabaseManager.executeUpdate(connection, deleteQuery, deleteParams);
+        int deleteRows = RequeteManager.executeUpdate(connection, deleteQuery, deleteParams);
         System.out.println("Lignes supprimés : " + deleteRows);
         assertNotEquals(0, deleteRows);
     }
